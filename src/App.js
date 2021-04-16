@@ -254,7 +254,7 @@ const App = (props) => {
                                         <Avatar src={ele.image} />
                                       }
                                       title={ele.name}
-                                      description={ele.anniversary} 
+                                       
                                     />
                                   </Card>
                                 </Col>
