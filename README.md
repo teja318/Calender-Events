@@ -1,21 +1,13 @@
 # Calender Events
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Events are displayed according to week && day and list of all events
 
-## Available Scripts
+## Packages
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Ant Design, Moment.js
 
 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
 
 
