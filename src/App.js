@@ -16,10 +16,16 @@ const App = (props) => {
       width: "100",
       marginTop: "16px",
       marginLeft: "25",
-     
+      
     },
     item: {
-      textAlign: 'center'
+      textAlign: 'center',
+      background: "white"
+    },
+    description: {
+      width: 820, 
+      textAlign: "center", 
+      background: "#d9d9d9"
     }
     
   };
@@ -115,24 +121,30 @@ const App = (props) => {
     },
     {
       "id": 11,
-      "holidayDate": "05-01-",
+      "holidayDate": "05-01",
       "holiday": "May Day",
       
+    },
+    {
+      "id": 12,
+      "holidayDate": "04-02",
+      "holiday": "Good Friday"
     }
+
   ]
   
-  const birthDayList = data.filter((ele) =>{
+  const birthDaysLists = data.filter((ele) =>{
     if(ele.birthDay){
       return {...ele}
     }
   })
   
-  const anniversaryList = data.filter((ele) =>{
+  const anniversarysLists = data.filter((ele) =>{
     if(ele.anniversary){
       return {...ele}
     }
   })
-  const holidayList = data.filter((ele) =>{
+  const holidaysLists = data.filter((ele) =>{
     if(ele.holiday){
       return {...ele}
     }
@@ -141,7 +153,7 @@ const App = (props) => {
   const handleWeek = () => {
     const currentDate = moment()
     const weekStart = currentDate.clone().startOf('isoWeek')
-    //console.log(moment(weekStart).add(0,'days').format("MM-DD"))
+    
     let days = []
     for (var i = 0; i <= 6; i++) {
       days.push(moment(weekStart).add(i, 'days').format("MM-DD-YYY"));
@@ -165,7 +177,7 @@ const App = (props) => {
     setWeek('')
   }
   return (
-    <div style={{background: "#fafafa"}}>
+    <div>
       <Row>
         <Col span={1}>
         </Col>
@@ -176,7 +188,7 @@ const App = (props) => {
         <Col span={12}>
           <br />
           {date ? moment(date).format('MMMM Do, YYYY') : ''}
-          {week.length > 0? `${moment(week[0]).format('MMMM Do')} - ${moment(week[6]).format('MMMM Do')}` : ""}
+          {week.length > 0? `${moment(week[0]).format('MMMM Do')} - ${moment(week[week.length - 1]).format('MMMM Do')}` : ""}
         </Col>
         <Col span={6}>
           <br />
@@ -199,13 +211,13 @@ const App = (props) => {
               ""
             ) : (
               
-              <Descriptions style={{ width: 820 }} bordered>
-                <Descriptions.Item style={myStyle.item}  label="BirthDay"  span={3}>
+              <Descriptions title={`${moment(week[0]).format("MMM Do dddd")} - ${moment(week[week.length - 1]).format("MMM Do dddd")}`} style={myStyle.description} bordered>
+                <Descriptions.Item style={myStyle.item}  label="Birthday"  span={3}>
                   <Row gutter={16} spacing={2}>
                     {
                       week.map((element) =>{
                         return(
-                          birthDayList.map((ele,i) =>{
+                          birthDaysLists.map((ele,i) =>{
                             if(ele.birthDay&&ele.birthDay.slice(0,5) === moment(element).format('MM-DD')){
                               return(
                                 <Col className="gutter-row" key={i} span={10} >
@@ -232,7 +244,7 @@ const App = (props) => {
                     {
                       week.map((element) =>{
                         return(
-                          anniversaryList.map((ele,i) =>{
+                          anniversarysLists.map((ele,i) =>{
                             if(ele.anniversary&&ele.anniversary.slice(0,5) === moment(element).format('MM-DD')){
                               return(
                                 <Col className="gutter-row"  key={i} span={10} >
@@ -254,6 +266,29 @@ const App = (props) => {
                     }
                   </Row>
                 </Descriptions.Item>
+                <Descriptions.Item style={myStyle.item} label="Company Holiday">
+                  <Row gutter={16} spacing={2}>
+                    {
+                      week.map((element) =>{
+                        return(
+                          holidaysLists.map((ele,i) =>{
+                            if(ele.holidayDate&&ele.holidayDate.slice(0,5) === moment(element).format('MM-DD')){
+                              return(
+                                <Col className="gutter-row"  key={i} span={10} >
+                                  <Card style={myStyle.card}>
+                                    <Meta 
+                                      title={ele.holiday}
+                                    />
+                                  </Card>
+                                </Col>
+                              )
+                            }
+                          })
+                        )
+                      })
+                    }
+                  </Row>
+                </Descriptions.Item>
               </Descriptions>
             )
           }
@@ -262,11 +297,11 @@ const App = (props) => {
               " "
             ) : ( 
               
-              <Descriptions title={moment(date).format("dddd")} style={{width: 820, textAlign: "center"}} bordered>
-                <Descriptions.Item style={myStyle.item} label="BirthDay" span={3} >
+              <Descriptions title={moment(date).format("dddd")} style={myStyle.description} bordered>
+                <Descriptions.Item style={myStyle.item} label="Birthday" span={3} >
                   <Row gutter={16} spacing={2}>
                     {
-                      birthDayList.map((ele,i) =>{
+                      birthDaysLists.map((ele,i) =>{
                         if(ele.birthDay&&ele.birthDay.slice(0,5) === moment(date).format('MM-DD') ){
                           return(
                             <Col className="gutter-row" key={i} span={10} >
@@ -290,7 +325,7 @@ const App = (props) => {
                 <Descriptions.Item style={myStyle.item} label="Work Anniversary" span={3}>
                   <Row gutter={16}>
                     {
-                      anniversaryList.map((ele,i) =>{
+                      anniversarysLists.map((ele,i) =>{
                         if(ele.anniversary&&ele.anniversary.slice(0,5) === (date ? moment(date).format('MM-DD') :"")){
                           return(
                             <Col className="gutter-row" key={i} span={10} >
@@ -300,7 +335,25 @@ const App = (props) => {
                                     <Avatar src={ele.image} />
                                   }
                                   title={ele.name}
-                                  description={ele.anniversary} 
+                                />
+                              </Card>
+                            </Col>
+                          )
+                        }
+                      })
+                    }
+                  </Row>
+                </Descriptions.Item>
+                <Descriptions.Item style={myStyle.item}label="Company Holiday" span={3}>
+                  <Row gutter={16}>
+                    {
+                      holidaysLists.map((ele,i) =>{
+                        if(ele.holidayDate&&ele.holidayDate.slice(0,5) === moment(date).format('MM-DD') ){
+                          return(
+                            <Col className="gutter-row" key={i} span={10} >
+                              <Card key={i} style={myStyle.card}>
+                                <Meta style={{backgroundColor: "#ffd666"}}
+                                  title={ele.holiday}
                                 />
                               </Card>
                             </Col>
@@ -315,11 +368,11 @@ const App = (props) => {
           }
           {
             toggle? (
-              <Descriptions style={{width: 820}} bordered>
-                <Descriptions.Item style={myStyle.item} label="BirthDay" span={3} >
+              <Descriptions title="Events List" style={myStyle.description} bordered>
+                <Descriptions.Item style={myStyle.item} label="Birthday" span={3} >
                   <Row gutter={16}>
                     {
-                      birthDayList.map((ele,i) =>{
+                      birthDaysLists.map((ele,i) =>{
                         
                           return(
                             <Col className="gutter-row" key={i} span={10} >
@@ -340,28 +393,44 @@ const App = (props) => {
                   </Row>
                 </Descriptions.Item>
               
-                <Descriptions.Item style={myStyle.tem}label="Work Anniversary" span={3}>
+                <Descriptions.Item style={myStyle.item}label="Work Anniversary" span={3}>
                   <Row gutter={16}>
-                  {
-                  anniversaryList.map((ele,i) =>{
+                    {
+                      anniversarysLists.map((ele,i) =>{
                     
-                      return(
-                        <Col className="gutter-row" key={i} span={10} >
-                        <Card key={i} style={myStyle.card}>
-                          <Meta 
-                            avatar={
-                              <Avatar src={ele.image} />
-                            }
-                            title={ele.name}
-                            description={ele.anniversary} 
-                          />
-                        </Card>
-                        </Col>
-                      )
+                        return(
+                          <Col className="gutter-row" key={i} span={10} >
+                            <Card key={i} style={myStyle.card}>
+                              <Meta 
+                                avatar={
+                                  <Avatar src={ele.image} />
+                                }
+                                title={ele.name}
+                              />
+                            </Card>
+                          </Col>
+                        )
+                      })
+                    }
+                  </Row>
+                </Descriptions.Item>
+                <Descriptions.Item style={myStyle.item}label="Company Holiday" span={3}>
+                  <Row gutter={16}>
+                    {
+                      holidaysLists.map((ele,i) =>{
                     
-                  })
-                }
-                </Row>
+                        return(
+                          <Col className="gutter-row" key={i} span={10} >
+                            <Card key={i} style={myStyle.card}>
+                              <Meta style={{backgroundColor: "#ffd666"}}
+                                title={ele.holiday}
+                              />
+                            </Card>
+                          </Col>
+                        )
+                      })
+                    }
+                  </Row>
                 </Descriptions.Item>
               
               </Descriptions>
