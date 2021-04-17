@@ -275,11 +275,9 @@ const App = (props) => {
                             if(ele.holidayDate&&ele.holidayDate.slice(0,5) === moment(element).format('MM-DD')){
                               return(
                                 <Col className="gutter-row"  key={i} span={10} >
-                                  <Card style={myStyle.card}>
-                                    <Meta 
-                                      title={ele.holiday}
-                                    />
-                                  </Card>
+                                  <Meta 
+                                    title={ele.holiday}
+                                  />
                                 </Col>
                               )
                             }
@@ -346,16 +344,15 @@ const App = (props) => {
                 </Descriptions.Item>
                 <Descriptions.Item style={myStyle.item}label="Company Holiday" span={3}>
                   <Row gutter={16}>
+                    
                     {
                       holidaysLists.map((ele,i) =>{
                         if(ele.holidayDate&&ele.holidayDate.slice(0,5) === moment(date).format('MM-DD') ){
                           return(
                             <Col className="gutter-row" key={i} span={10} >
-                              <Card key={i} style={myStyle.card}>
-                                <Meta style={{backgroundColor: "#ffd666"}}
-                                  title={ele.holiday}
-                                />
-                              </Card>
+                              <Meta style={{backgroundColor: "#ffd666"}}
+                                title={ele.holiday}
+                              />
                             </Col>
                           )
                         }
@@ -418,14 +415,11 @@ const App = (props) => {
                   <Row gutter={16}>
                     {
                       holidaysLists.map((ele,i) =>{
-                    
                         return(
                           <Col className="gutter-row" key={i} span={10} >
-                            <Card key={i} style={myStyle.card}>
-                              <Meta style={{backgroundColor: "#ffd666"}}
-                                title={ele.holiday}
-                              />
-                            </Card>
+                            <Meta style={{backgroundColor: "#ffd666"}}
+                              title={ele.holiday}
+                            />
                           </Col>
                         )
                       })
